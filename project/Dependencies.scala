@@ -9,25 +9,28 @@ object Dependencies {
 
   // resolvers
   val resolvers = Seq(
-    Resolver sonatypeRepo "public"
+    Resolver sonatypeRepo "public",
+    Resolver typesafeRepo "releases",
+    Resolver.bintrayRepo("cakesolutions", "maven")
   )
 
-  // functional utils
-  val scalaz           = "org.scalaz" %% "scalaz-core" % "7.2.6"
-  val scalazConcurrent = "org.scalaz" %% "scalaz-concurrent" % "7.2.6"
-  val scalazContrib    = "org.typelevel" %% "scalaz-contrib-210" % "0.2" excludeAll ExclusionRule("org.scalaz")
+  val scalaConfig = "com.typesafe" % "config" % "1.3.1"
+  val pureConfig  = "com.github.melrief" %% "pureconfig" % "0.5.1"
+  val jodaTime    = "joda-time" % "joda-time" % "2.9.4"
+  val jodaConvert = "org.joda" % "joda-convert" % "1.8.1"
 
-  // command line
-  val scopt = "com.github.scopt" %% "scopt" % "3.5.0"
+  val monix = "io.monix" %% "monix" % "2.0.5"
+
+  // functional utils
+  val cats = "org.typelevel" %% "cats" % "0.7.2"
 
   // logging
-  val logback = "ch.qos.logback" % "logback-classic" % "1.1.7"
+  val logback = "ch.qos.logback" % "logback-classic" % "1.1.8"
 
   // testing
-  val mockito    = "org.mockito" % "mockito-core" % "1.10.19"
-  val spec2      = "org.specs2" %% "specs2" % "3.7"
-  val spec2Core  = "org.specs2" %% "specs2-core" % "3.8.5"
-  val spec2JUnit = "org.specs2" %% "specs2-junit" % "3.8.5"
+  val spec2Core  = "org.specs2" %% "specs2-core"  % "3.8.5.1"
+  val spec2JUnit = "org.specs2" %% "specs2-junit" % "3.8.5.1"
+  val spec2Mock  = "org.specs2" %% "specs2-mock"  % "3.8.5.1"
 }
 
 trait Dependencies {
@@ -37,9 +40,9 @@ trait Dependencies {
   // resolvers
   val commonResolvers = resolvers
 
-  val mainDeps = Seq(scalaz, scalazConcurrent, scalazContrib, scopt, logback)
+  val mainDeps = Seq(cats, scalaConfig, pureConfig, jodaTime, jodaConvert, monix, logback)
 
-  val testDeps = Seq(mockito, spec2, spec2Core, spec2JUnit)
+  val testDeps = Seq(spec2Core, spec2JUnit, spec2Mock)
 
   implicit class ProjectRoot(project: Project) {
 

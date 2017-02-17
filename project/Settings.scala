@@ -1,5 +1,5 @@
 import com.typesafe.sbt.SbtScalariform._
-import sbt.Defaults.testTasks
+import com.typesafe.sbt.SbtGit.git
 import sbt.TestFrameworks.Specs2
 import sbt.Tests.Argument
 import sbt._
@@ -16,7 +16,7 @@ object Settings extends Dependencies {
 
   private val commonSettings = Seq(
     organization := "pl.combosolutions",
-    version := "0.1.0-SNAPSHOT",
+    git.baseVersion := "0.1.0",
 
     scalaVersion := scalaVersionUsed
   )
