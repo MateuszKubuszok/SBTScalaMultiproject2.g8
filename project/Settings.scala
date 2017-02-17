@@ -2,7 +2,7 @@ import com.typesafe.sbt.SbtScalariform._
 import sbt.Defaults.testTasks
 import sbt.TestFrameworks.Specs2
 import sbt.Tests.Argument
-import sbt.{IntegrationTest => _, _}
+import sbt._
 import sbt.Keys._
 
 import scalariform.formatter.preferences._
@@ -12,16 +12,7 @@ import org.scalastyle.sbt.ScalastylePlugin._
 
 object Settings extends Dependencies {
 
-  private val integrationTestTag = TestTag.IntegrationTest
-  val IntegrationTest = config(integrationTestTag) extend Test describedAs "Runs only integration tests"
-
-  private val functionalTestTag = TestTag.FunctionalTest
-  val FunctionalTest = config(functionalTestTag) extend Test describedAs "Runs only functional tests"
-
-  private val unitTestTag = TestTag.UnitTest
-  val UnitTest = config(unitTestTag) extend Test describedAs "Runs only unit tests"
-
-  private val disabledTestTag = TestTag.DisabledTest
+  val FunctionalTest = config("fun") extend Test describedAs "Runs only functional tests"
 
   private val commonSettings = Seq(
     organization := "pl.combosolutions",
@@ -54,9 +45,8 @@ object Settings extends Dependencies {
     resolvers ++= commonResolvers,
 
     libraryDependencies ++= mainDeps,
-    libraryDependencies ++= testDeps map (_ % "test"),
+    libraryDependencies ++= testDeps map (_ % Test),
 
-    testOptions in Test += excludeTags(disabledTestTag),
     coverageEnabled := false,
 
     ScalariformKeys.preferences := ScalariformKeys.preferences.value
@@ -70,21 +60,17 @@ object Settings extends Dependencies {
     scalastyleFailOnError := true
   )
 
-  private def excludeTags(tags: String*) = Argument(Specs2, "exclude", tags.reduce(_ + "," + _))
-  private def includeTags(tags: String*) = Argument(Specs2, "include", tags.reduce(_ + "," + _))
-  private def sequential = Argument(Specs2, "sequential")
+  abstract class TestConfigurator(project: Project, config: Configuration) {
 
-  abstract class Configurator(project: Project, config: Configuration, tag: String) {
-
-    protected def configure = project.
+    protected def configure: Project = project.
       configs(config).
-      settings(inConfig(config)(testTasks): _*).
-      settings(testOptions in config := Seq(includeTags(tag))).
-      settings(libraryDependencies ++= testDeps map (_ % tag)).
+      settings(inConfig(config)(Defaults.testSettings): _*).
+      settings(testFrameworks := Seq(Specs2)).
+      settings(libraryDependencies ++= testDeps map (_ % config.name)).
       enablePlugins(ScoverageSbtPlugin)
 
-    protected def configureSequential = configure.
-      settings(testOptions in config ++= Seq(sequential)).
+    protected def configureSequential: Project = configure.
+      settings(testOptions in config += Argument(Specs2, "sequential")).
       settings(parallelExecution in config := false)
   }
 
@@ -108,21 +94,24 @@ object Settings extends Dependencies {
     def configureModule: Project = project.settings(modulesSettings: _*)
   }
 
-  implicit class IntegrationTestConfigurator(project: Project)
-    extends Configurator(project, IntegrationTest, integrationTestTag) {
+  implicit class UnitTestConfigurator(project: Project) extends TestConfigurator(project, Test) {
 
-    def configureIntegrationTests: Project = configureSequential
+    def configureTests: Project = configure
+
+    def configureTestsSequential: Project = configureSequential
   }
 
-  implicit class FunctionalTestConfigurator(project: Project)
-    extends Configurator(project, FunctionalTest, functionalTestTag) {
+  implicit class FunctionalTestConfigurator(project: Project) extends TestConfigurator(project, FunctionalTest) {
 
     def configureFunctionalTests: Project = configure
+
+    def configureFunctionalTestsSequential: Project = configureSequential
   }
 
-  implicit class UnitTestConfigurator(project: Project)
-    extends Configurator(project, UnitTest, unitTestTag) {
+  implicit class IntegrationTestConfigurator(project: Project) extends TestConfigurator(project, IntegrationTest) {
 
-    def configureUnitTests: Project = configure
+    def configureIntegrationTests: Project = configure
+
+    def configureIntegrationTestsSequential: Project = configureSequential
   }
 }

@@ -3,11 +3,11 @@ package pl.combosolutions
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
-class CommonSpec extends Specification with Mockito {
+class CommonFunSpec extends Specification with Mockito {
 
-  "Common" should {
+  "Common integration" should {
 
-    "measure units" in {
+    "function in Church" in {
       1 mustEqual 1
     }
   }

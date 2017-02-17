@@ -15,16 +15,17 @@ lazy val common = project.from("common")
   .setDescription("Common utilities")
   .setInitialCommand("_")
   .configureModule
+  .configureTests
+  .configureFunctionalTests
+  .configureIntegrationTests
 
 lazy val first = project.from("first")
   .setName("first")
   .setDescription("First project")
   .setInitialCommand("first._")
   .configureModule
-  .configureIntegrationTests
-  .configureFunctionalTests
-  .configureUnitTests
-  .dependsOnProjects(common)
+  .configureTests
+  .compileAndTestDependsOn(common)
   .settings(mainClass in (Compile, run) := Some("pl.combosolutions.first.First"))
 
 lazy val second = project.from("second")
@@ -32,8 +33,6 @@ lazy val second = project.from("second")
   .setDescription("Second project")
   .setInitialCommand("second._")
   .configureModule
-  .configureIntegrationTests
-  .configureFunctionalTests
-  .configureUnitTests
-  .dependsOnProjects(common)
+  .configureTests
+  .compileAndTestDependsOn(common)
   .settings(mainClass in (Compile, run) := Some("pl.combosolutions.first.Second"))

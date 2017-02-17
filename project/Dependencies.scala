@@ -57,7 +57,7 @@ trait Dependencies {
 
     val dependsOnCompileAndTest = "test->test;compile->compile"
 
-    def dependsOnProjects(projects: Project*): Project =
+    def compileAndTestDependsOn(projects: Project*): Project =
       project dependsOn (projects.map(_ % dependsOnCompileAndTest): _*)
   }
 }
