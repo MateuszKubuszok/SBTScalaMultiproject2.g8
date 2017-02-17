@@ -29,6 +29,7 @@ object Settings extends Dependencies {
       "-encoding", "UTF-8",
       "-unchecked",
       "-deprecation",
+      "-explaintypes",
       "-feature",
       "-language:existentials",
       "-language:higherKinds",
@@ -37,9 +38,12 @@ object Settings extends Dependencies {
       "-Yno-adapted-args",
       "-Ywarn-dead-code",
       "-Ywarn-infer-any",
+      "-Ywarn-numeric-widen",
+      "-Ywarn-nullary-override",
       "-Ywarn-unused-import",
       "-Xfatal-warnings",
-      "-Xlint"
+      "-Xlint",
+      "-Xlint:unsound-match"
     ),
 
     resolvers ++= commonResolvers,
