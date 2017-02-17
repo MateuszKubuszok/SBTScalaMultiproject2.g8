@@ -1,6 +1,6 @@
-# SBT Scala multiproject template
+# SBT Scala multiproject template 2.0
 
-![https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject](https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject.svg)
+![https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject2](https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject2.svg)
 
 Template of SBT Scala with:
 
@@ -9,9 +9,9 @@ Template of SBT Scala with:
  * [Scalariform](https://github.com/scala-ide/scalariform) configuration,
  * [Scoverage](https://github.com/scoverage/sbt-scoverage) configuration,
  * [Scalastyle](http://www.scalastyle.org/) configuration,
- * predefined [sub]tasks: `integration:test`, `functional:test`, `unit:test` which run tests tagged as
-   `IntegrationTest`/`FunctionalTest`/`UnitTest` respectively,
- * filtering out tests tagged as `DisabledTest`.
+ * predefined [sub]tasks: `it:test`, `fun:test`, `test` which run tests as
+   `IntegrationTest`/`FunctionalTest`/`Test` respectively,
+ * some additional plugins I finding useful: coursive, revolder, sbt-lock, sbt-git.
 
 ## Customization
 
@@ -96,92 +96,7 @@ with coverage enabled you don't have to clean anything).
 Running selected suite:
 
 ```bash
-sbt first/test
-sbt first/unit:test
-sbt first/unit:functional
-sbt first/unit:integration
-sbt second/test
-sbt second/unit:test
-sbt second/unit:functional
-sbt second/unit:integration
+sbt common/test
+sbt common/fun:test
+sbt common/it:test
 ```
-
-### Creating tagged test:
-
-```scala
-class ClassUnderTestSpec extends Specification with Mockito {
-
-  "ClassUnderTest" should {
-
-    "be nice here" in {
-      // given
-      ...
-
-      // when
-      ...
-
-      // then
-      ...
-    } tag UnitTest
-    
-    "be nice overall" in {
-      // given
-      ...
-
-      // when
-      ...
-
-      // then
-      ...
-    } tag FunctionalTest
-  }
-  
-}
-```
-
-### Test tags
-
-Tags are defined in `TestTag` object. One can define its own tags by adding them into `TestTag` objects (both in build
-as well as in commons) and then creating task and implicit class using existing tasks configs as example.
-
-E.g. if one were to add hic own tag:
-
-```
-object TestTag {
-  ...
-  val CustomTest = "custom"
-}
-```
-
-in both objects, then added:
-
-```scala
-object Settings {
-  private val customTestTag = TestTag.CustomTest
-  val CustomTest = config(customTestTag) extend Test describedAs "Runs only custom tests"
-  
-  ...
-  
-  implicit class CustomTestConfigurator(project: Project)
-    extends Configurator(project, CustomTest, customTestTag) {
-
-    def configureCustomTests: Project = configure
-  }
-}
-```
-
-to `project/Settings.scala` and finally:
-
-```
-val myProject.from("my-project")
-  ...
-  .configureCustomTests
-```
-
-then he/she would be able to run:
-
-```bash
-sbt my-project/custom:test
-```
-
-task running only tests tagged as `CustomTest`.
