@@ -58,7 +58,7 @@ trait Dependencies {
 
   implicit class DependsOnProject(project: Project) {
 
-    val dependsOnCompileAndTest = "test->test;compile->compile"
+    private val dependsOnCompileAndTest = "test->test;compile->compile"
 
     def compileAndTestDependsOn(projects: Project*): Project =
       project dependsOn (projects.map(_ % dependsOnCompileAndTest): _*)

@@ -1,5 +1,5 @@
-import com.typesafe.sbt.SbtScalariform._
 import com.typesafe.sbt.SbtGit.git
+import com.typesafe.sbt.SbtScalariform._
 import sbt.TestFrameworks.Specs2
 import sbt.Tests.Argument
 import sbt._
@@ -12,10 +12,10 @@ import org.scalastyle.sbt.ScalastylePlugin._
 
 object Settings extends Dependencies {
 
-  val FunctionalTest = config("fun") extend Test describedAs "Runs only functional tests"
+  val FunctionalTest: Configuration = config("fun") extend Test describedAs "Runs only functional tests"
 
   private val commonSettings = Seq(
-    organization := "pl.combosolutions",
+    organization    := "pl.combosolutions",
     git.baseVersion := "0.1.0",
 
     scalaVersion := scalaVersionUsed
