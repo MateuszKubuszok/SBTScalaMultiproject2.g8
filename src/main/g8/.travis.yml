@@ -16,6 +16,8 @@ install:
 script:         scripts/run-all-tests.sh
 after_script:
               - scripts/prepare-test-results-for-ci.sh
+              - find $HOME/.sbt -name "*.lock" | xargs rm
+              - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
 notifications:
   email:
     on_success: never
