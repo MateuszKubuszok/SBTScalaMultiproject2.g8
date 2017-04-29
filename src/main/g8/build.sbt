@@ -5,7 +5,7 @@ scalaVersion in ThisBuild := scalaVersionUsed
 
 lazy val root = project.root
   .setName("$name$")
-  .setDescription("$description$")
+  .setDescription("$about$")
   .setInitialCommand("_")
   .configureRoot
   .aggregate(common, first, second)
