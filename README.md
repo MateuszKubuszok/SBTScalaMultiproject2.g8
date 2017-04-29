@@ -14,6 +14,15 @@ Template of SBT Scala with:
    `IntegrationTest`/`FunctionalTest`/`Test` respectively,
  * some additional plugins I finding useful: coursier, sbt-revolver, sbt-lock, sbt-git, sbt-assembly.
 
+## Usage
+
+Run `sbt new MateuszKubuszok/SBTScalaMultiproject2.g8` and fill the attributes:
+ 
+ * `name` - name used to describe the root project, scalariform config and tmux session started by `scripts/start-tmux.sh`,
+ * `about` - description of a root project,
+ * `organization` - organization name used in Maven/Ivy artefact naming,
+ * `package` - name of a root package that each module will be a subpackage of.
+
 ## Customization
 
 Start with changing module namespace to your own both inside Scala files as well as in `project/Settings.scala`. Make
@@ -28,8 +37,8 @@ Within `build.sbt` use existing modules as basis how to use small DSL for applyi
  * `configureModule` will apply all common settings from `Settings.scala`,
  * `configureUnitTests`/`configureFunctionalTests`/`configureIntegrationTests` will add `unit:test`/`functional:test`/
    `integration:test` task to your module,
- * `dependsOnProjects(projects)` will set up both compile and test dependency (so tests will succeed only if module's
-    own and it's dependency's tests will pass, and in test code you could use some common code from your dependencies),
+ * `compileAndTestDependsOn(projects)` will set up both compile and test dependency (so `test:compile` will dependa on
+   `test:compile` of a `test:compile` of another project allowing for reusing common test logic),
  * each of those commands will return project allowing normal `.settings(settings)` application. For individual settings
    one can also use `modules/name/build.sbt` individual per-module settings.
 
