@@ -38,14 +38,43 @@ object Settings extends Dependencies {
       "-language:implicitConversions",
       "-language:postfixOps",
       "-Yno-adapted-args",
+      "-Yno-predef",
       "-Ywarn-dead-code",
+      "-Ywarn-extra-implicit",
+      "-Ywarn-inaccessible",
       "-Ywarn-infer-any",
-      "-Ywarn-numeric-widen",
       "-Ywarn-nullary-override",
-      "-Ywarn-unused-import",
+      "-Ywarn-nullary-unit",
+      "-Ywarn-numeric-widen",
+      "-Ywarn-unused:implicits",
+      "-Ywarn-unused:imports",
+      "-Ywarn-unused:locals",
+      "-Ywarn-unused:params",
+      "-Ywarn-unused:patvars",
+      "-Ywarn-unused:privates",
       "-Xfatal-warnings",
       "-Xlint",
+      "-Xlint:adapted-args",
+      "-Xlint:by-name-right-associative",
+      "-Xlint:constant",
+      "-Xlint:delayedinit-select",
+      "-Xlint:doc-detached",
+      "-Xlint:inaccessible",
+      "-Xlint:infer-any",
+      "-Xlint:missing-interpolator",
+      "-Xlint:nullary-override",
+      "-Xlint:nullary-unit",
+      "-Xlint:option-implicit",
+      "-Xlint:package-object-classes",
+      "-Xlint:poly-implicit-overload",
+      "-Xlint:private-shadow",
+      "-Xlint:stars-align",
+      "-Xlint:type-parameter-shadow",
       "-Xlint:unsound-match"
+    ),
+    scalacOptions in (Compile, console) --= Seq(
+      "-Ywarn-unused:imports",
+      "-Xfatal-warnings"
     ),
 
     resolvers ++= commonResolvers,
@@ -66,13 +95,13 @@ object Settings extends Dependencies {
     scalastyleFailOnError := true,
 
     wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
-      Wart.Any,                   // - see puffnfresh/wartremover#263
-      Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
-      Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
+      Wart.Any,
+      Wart.ExplicitImplicitTypes,
+      Wart.ImplicitConversion,
       Wart.ImplicitParameter,
       Wart.PublicInference,
       Wart.NonUnitStatements,
-      Wart.Nothing                // - see puffnfresh/wartremover#263
+      Wart.Nothing
     )
   )
 
@@ -100,6 +129,9 @@ object Settings extends Dependencies {
     def setName(newName: String): Project = project.settings(name := newName)
 
     def setDescription(newDescription: String): Project = project.settings(description := newDescription)
+
+    def setInitialCommand(newInitialCommand: String): Project =
+      project.settings(initialCommands := s"import $package$.$newInitialCommand")
   }
 
   implicit class RootConfigurator(project: Project) {
