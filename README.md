@@ -1,6 +1,6 @@
 # SBT Scala multiproject template 2.0
 
-![https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject2](https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject2.svg)
+![https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject2](https://travis-ci.org/MateuszKubuszok/SBTScalaMultiproject2.g8.svg)
 
 Template of SBT Scala with:
 
