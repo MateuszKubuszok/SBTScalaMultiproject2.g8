@@ -111,3 +111,7 @@ sbt common/test
 sbt common/fun:test
 sbt common/it:test
 ```
+
+## Additional utils
+
+`scripts/start-tmux.sh`
