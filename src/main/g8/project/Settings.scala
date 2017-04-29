@@ -100,9 +100,6 @@ object Settings extends Dependencies {
     def setName(newName: String): Project = project.settings(name := newName)
 
     def setDescription(newDescription: String): Project = project.settings(description := newDescription)
-
-    def setInitialCommand(newInitialCommand: String): Project =
-      project.settings(initialCommands := s"$package$.\$newInitialCommand")
   }
 
   implicit class RootConfigurator(project: Project) {
