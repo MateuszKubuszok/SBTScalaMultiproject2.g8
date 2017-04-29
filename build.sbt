@@ -18,6 +18,11 @@ lazy val common = project.from("common")
   .configureTests
   .configureFunctionalTests
   .configureIntegrationTests
+  .settings(resourceGenerators in Compile += task[Seq[File]] {
+    val file = (resourceManaged in Compile).value / "project-version.conf"
+    IO.write(file, s"version=${version.value}")
+    Seq(file)
+  })
 
 lazy val first = project.from("first")
   .setName("first")

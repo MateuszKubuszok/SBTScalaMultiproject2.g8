@@ -4,11 +4,13 @@ import sbt.TestFrameworks.Specs2
 import sbt.Tests.Argument
 import sbt._
 import sbt.Keys._
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys.{format => scalariformFormat}
 
 import scalariform.formatter.preferences._
 import scoverage.ScoverageKeys._
 import scoverage.ScoverageSbtPlugin
 import org.scalastyle.sbt.ScalastylePlugin._
+import wartremover._
 
 object Settings extends Dependencies {
 
@@ -61,21 +63,36 @@ object Settings extends Dependencies {
       .setPreference(IndentLocalDefs, false)
       .setPreference(PreserveSpaceBeforeArguments, true),
 
-    scalastyleFailOnError := true
+    scalastyleFailOnError := true,
+
+    wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
+      Wart.Any,                   // - see puffnfresh/wartremover#263
+      Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
+      Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
+      Wart.ImplicitParameter,
+      Wart.PublicInference,
+      Wart.NonUnitStatements,
+      Wart.Nothing                // - see puffnfresh/wartremover#263
+    )
   )
 
   abstract class TestConfigurator(project: Project, config: Configuration) {
 
-    protected def configure: Project = project.
-      configs(config).
-      settings(inConfig(config)(Defaults.testSettings): _*).
-      settings(testFrameworks := Seq(Specs2)).
-      settings(libraryDependencies ++= testDeps map (_ % config.name)).
-      enablePlugins(ScoverageSbtPlugin)
+    protected def configure: Project = project
+      .configs(config)
+      .settings(inConfig(config)(Defaults.testSettings): _*)
+      .settings(inConfig(config)(configScalariformSettings))
+      .settings(compileInputs in (config, compile) :=
+        ((compileInputs in (config, compile)) dependsOn (scalariformFormat in config)).value
+      )
+      .settings(fork in config := true)
+      .settings(testFrameworks := Seq(Specs2))
+      .settings(libraryDependencies ++= testDeps map (_ % config.name))
+      .enablePlugins(ScoverageSbtPlugin)
 
-    protected def configureSequential: Project = configure.
-      settings(testOptions in config += Argument(Specs2, "sequential")).
-      settings(parallelExecution in config := false)
+    protected def configureSequential: Project = configure
+      .settings(testOptions in config += Argument(Specs2, "sequential"))
+      .settings(parallelExecution in config := false)
   }
 
   implicit class DataConfigurator(project: Project) {

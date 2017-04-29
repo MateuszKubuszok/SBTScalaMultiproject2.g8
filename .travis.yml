@@ -1,14 +1,21 @@
 language:       scala
 scala:
-              - 2.11.8
+              - 2.12.2
 jdk:
+              - openjdk8
               - oraclejdk8
-script:         sbt coverage test coverageReport coverageAggregate scalastyle
+dist:           trusty
+cache:
+              - "~/.ivy2"
+              - "~/.sbt"
+install:
+              - sudo apt-get update
+              - sudo apt-get install zsh
+              - sudo chmod +x scripts/*
+              - scripts/sbt update
+script:         scripts/run-all-tests.sh
 after_script:
-              - mkdir -p shippable/testresults
-              - cp modules/*/target/test-reports/* $PWD/shippable/testresults/
-              - mkdir -p shippable/codecoverage
-              - cp target/scala-2.11/coverage-report/cobertura.xml $PWD/shippable/codecoverage/
+              - scripts/prepare-test-results-for-ci.sh
 notifications:
   email:
     on_success: never
