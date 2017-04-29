@@ -9,9 +9,10 @@ Template of SBT Scala with:
  * [Scalariform](https://github.com/scala-ide/scalariform) configuration,
  * [Scoverage](https://github.com/scoverage/sbt-scoverage) configuration,
  * [Scalastyle](http://www.scalastyle.org/) configuration,
+ * [WartRemover](http://www.wartremover.org/) configuration,
  * predefined [sub]tasks: `it:test`, `fun:test`, `test` which run tests as
    `IntegrationTest`/`FunctionalTest`/`Test` respectively,
- * some additional plugins I finding useful: coursive, revolder, sbt-lock, sbt-git.
+ * some additional plugins I finding useful: coursier, sbt-revolver, sbt-lock, sbt-git, sbt-assembly.
 
 ## Customization
 
@@ -79,12 +80,22 @@ sbt "project second" run // or
 sbt second/run
 ```
 
+## Building uber jars
+
+```bash
+sbt "project first" assembly // or
+sbt first/assembly
+
+sbt "project second" assembly // or
+sbt second/assembly
+```
+
 ## Tests
 
 ### Running all tests with coverage and style check:
 
 ```bash
-sbt clean coverage test coverageReport coverageAggregate scalastyle
+sbt clean coverage lock test it:test coverageReport coverageAggregate scalastyle
 ```
 
 If you measure coverage you have to clean project otherwise it will not instrument properly. (To be precise coverage
