@@ -131,7 +131,7 @@ object Settings extends Dependencies {
     def setDescription(newDescription: String): Project = project.settings(description := newDescription)
 
     def setInitialCommand(newInitialCommand: String): Project =
-      project.settings(initialCommands := s"import $package$.$newInitialCommand")
+      project.settings(initialCommands := s"import $package$.\$newInitialCommand")
   }
 
   implicit class RootConfigurator(project: Project) {
