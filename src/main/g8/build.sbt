@@ -14,9 +14,9 @@ lazy val common = project.from("common")
   .setDescription("Common utilities")
   .setInitialCommand("_")
   .configureModule
-  .configureTests
-  .configureFunctionalTests
-  .configureIntegrationTests
+  .configureTests()
+  .configureFunctionalTests()
+  .configureIntegrationTests()
   .settings(resourceGenerators in Compile += task[Seq[File]] {
     val file = (resourceManaged in Compile).value / "$name;format="normalize"$-version.conf"
     IO.write(file, s"version=\${version.value}")
@@ -28,7 +28,7 @@ lazy val first = project.from("first")
   .setDescription("First project")
   .setInitialCommand("first._")
   .configureModule
-  .configureTests
+  .configureTests()
   .compileAndTestDependsOn(common)
   .settings(mainClass in (Compile, run) := Some("$package$.first.First"))
 
@@ -37,6 +37,6 @@ lazy val second = project.from("second")
   .setDescription("Second project")
   .setInitialCommand("second._")
   .configureModule
-  .configureTests
+  .configureTests()
   .compileAndTestDependsOn(common)
   .settings(mainClass in (Compile, run) := Some("$package$.first.Second"))

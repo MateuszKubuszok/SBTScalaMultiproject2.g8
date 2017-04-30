@@ -107,19 +107,19 @@ object Settings extends Dependencies {
 
   abstract class TestConfigurator(project: Project, config: Configuration) {
 
-    protected def configure: Project = project
+    protected def configure(requiresFork: Boolean): Project = project
       .configs(config)
       .settings(inConfig(config)(Defaults.testSettings): _*)
       .settings(inConfig(config)(configScalariformSettings))
       .settings(compileInputs in (config, compile) :=
         ((compileInputs in (config, compile)) dependsOn (scalariformFormat in config)).value
       )
-      .settings(fork in config := true)
+      .settings(fork in config := requiresFork)
       .settings(testFrameworks := Seq(Specs2))
       .settings(libraryDependencies ++= testDeps map (_ % config.name))
       .enablePlugins(ScoverageSbtPlugin)
 
-    protected def configureSequential: Project = configure
+    protected def configureSequential(requiresFork: Boolean): Project = configure(requiresFork)
       .settings(testOptions in config += Argument(Specs2, "sequential"))
       .settings(parallelExecution in config := false)
   }
@@ -146,22 +146,22 @@ object Settings extends Dependencies {
 
   implicit class UnitTestConfigurator(project: Project) extends TestConfigurator(project, Test) {
 
-    def configureTests: Project = configure
+    def configureTests(requiresFork: Boolean = false): Project = configure(requiresFork)
 
-    def configureTestsSequential: Project = configureSequential
+    def configureTestsSequential(requiresFork: Boolean = false): Project = configureSequential(requiresFork)
   }
 
   implicit class FunctionalTestConfigurator(project: Project) extends TestConfigurator(project, FunctionalTest) {
 
-    def configureFunctionalTests: Project = configure
+    def configureFunctionalTests(requiresFork: Boolean = false): Project = configure(requiresFork)
 
-    def configureFunctionalTestsSequential: Project = configureSequential
+    def configureFunctionalTestsSequential(requiresFork: Boolean = false): Project = configureSequential(requiresFork)
   }
 
   implicit class IntegrationTestConfigurator(project: Project) extends TestConfigurator(project, IntegrationTest) {
 
-    def configureIntegrationTests: Project = configure
+    def configureIntegrationTests(requiresFork: Boolean = false): Project = configure(requiresFork)
 
-    def configureIntegrationTestsSequential: Project = configureSequential
+    def configureIntegrationTestsSequential(requiresFork: Boolean = false): Project = configureSequential(requiresFork)
   }
 }
