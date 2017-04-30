@@ -7,7 +7,6 @@ import sbt.Keys._
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys.{format => scalariformFormat}
 
 import scalariform.formatter.preferences._
-import scoverage.ScoverageKeys._
 import scoverage.ScoverageSbtPlugin
 import org.scalastyle.sbt.ScalastylePlugin._
 import wartremover._
