@@ -51,6 +51,7 @@ object Settings extends Dependencies {
       "-Ywarn-unused:params",
       "-Ywarn-unused:patvars",
       "-Ywarn-unused:privates",
+      "-Xfuture",
       "-Xfatal-warnings",
       "-Xlint",
       "-Xlint:adapted-args",
