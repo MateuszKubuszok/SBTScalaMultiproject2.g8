@@ -82,8 +82,6 @@ object Settings extends Dependencies {
     libraryDependencies ++= mainDeps,
     libraryDependencies ++= testDeps map (_ % Test),
 
-    coverageEnabled := false,
-
     ScalariformKeys.preferences := ScalariformKeys.preferences.value
       .setPreference(AlignArguments, true)
       .setPreference(AlignParameters, true)
