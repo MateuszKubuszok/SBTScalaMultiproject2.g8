@@ -23,10 +23,16 @@ Run `sbt new MateuszKubuszok/SBTScalaMultiproject2.g8` and fill the attributes:
  * `organization` - organization name used in Maven/Ivy artefact naming,
  * `package` - name of a root package that each module will be a subpackage of.
 
+After that `cd` into created project and `git init` it.
+
+Optionally, you might run `scripts/start-tmux.sh` now.
+
 ## Customization
 
-Start with changing module namespace to your own both inside Scala files as well as in `project/Settings.scala`. Make
-sure to update initial command if you want to run `console` task of SBT. Update organization name and version number.
+Make sure to update initial command if you want to run `console` task of SBT.
+
+Update `version.sbt` for snapshots/development version with git-hashed in them (remember about `reload` before running
+`assembly`).
 
 Within `build.sbt` use existing modules as basis how to use small DSL for applying common settings:
 
@@ -43,7 +49,7 @@ Within `build.sbt` use existing modules as basis how to use small DSL for applyi
    one can also use `modules/name/build.sbt` individual per-module settings.
 
 You should also take a closer look at `project/Settings.scala` for tweaking `scalacOptions`,
-`ScalariformKeys.preferences` and `scalastyle-config.xml` for defining defaults best suiting your project.
+`.scalafmt.conf` and `scalastyle-config.xml` for defining defaults best suiting your project.
 
 Last but not least, edit common resolvers and dependencies within `project/Dependencies.scala`
 
