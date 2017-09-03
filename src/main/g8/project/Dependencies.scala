@@ -5,9 +5,9 @@ import Dependencies._
 object Dependencies {
 
   // scala version
-  val scalaVersion = "2.12.2"
+  val scalaVersion = "2.12.3"
 
-  val monixVersion = "2.2.3"
+  val monixVersion  = "2.3.0"
   val specs2Version = "3.8.9"
 
   // resolvers
@@ -17,8 +17,8 @@ object Dependencies {
     Resolver.bintrayRepo("cakesolutions", "maven")
   )
 
-  val scalaConfig = "com.typesafe" % "config" % "1.3.1"
-  val pureConfig  = "com.github.melrief" %% "pureconfig" % "0.6.0"
+  val scalaConfig = "com.typesafe"       %  "config"     % "1.3.1"
+  val pureConfig  = "com.github.pureconfig" %% "pureconfig" % "0.8.0"
 
   // async
   val monix     = "io.monix" %% "monix"      % monixVersion
@@ -28,8 +28,8 @@ object Dependencies {
   val cats = "org.typelevel" %% "cats" % "0.9.0"
 
   // logging
-  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
-  val logback      = "ch.qos.logback" % "logback-classic" % "1.2.2"
+  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging"   % "3.5.0"
+  val logback      = "ch.qos.logback"             %  "logback-classic" % "1.2.3"
 
   // testing
   val spec2Core       = "org.specs2" %% "specs2-core"       % specs2Version

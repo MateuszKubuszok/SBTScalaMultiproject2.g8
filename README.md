@@ -6,7 +6,7 @@ Template of SBT Scala with:
 
  * two modules independent of each other: `first` and `second`,
  * one `common` project - used by both `first` and `second`,
- * [Scalariform](https://github.com/scala-ide/scalariform) configuration,
+ * [Scalafmt](https://github.com/lucidsoftware/neo-sbt-scalafmt) configuration,
  * [Scoverage](https://github.com/scoverage/sbt-scoverage) configuration,
  * [Scalastyle](http://www.scalastyle.org/) configuration,
  * [WartRemover](http://www.wartremover.org/) configuration,
