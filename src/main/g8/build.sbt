@@ -2,6 +2,7 @@ import sbt._
 import Settings._
 
 scalaVersion in ThisBuild := scalaVersionUsed
+scalafmtVersion in ThisBuild := scalaFmtVersionUsed
 
 lazy val root = project.root
   .setName("$name$")
@@ -42,3 +43,6 @@ lazy val second = project.from("second")
   .compileAndTestDependsOn(common)
   .settings(mainClass in (Compile, run) := Some("$package$.second.Second"))
   .settings(mainClass in assembly := Some("$package$.second.Second"))
+
+
+addCommandAlias("fullTest", ";test;it:test;scalastyle")

@@ -7,6 +7,8 @@ object Dependencies {
   // scala version
   val scalaVersion = "2.12.3"
 
+  val scalaFmtVersion = "1.2.0"
+
   val monixVersion  = "2.3.0"
   val specs2Version = "3.8.9"
 
@@ -17,7 +19,7 @@ object Dependencies {
     Resolver.bintrayRepo("cakesolutions", "maven")
   )
 
-  val scalaConfig = "com.typesafe"       %  "config"     % "1.3.1"
+  val scalaConfig = "com.typesafe"          %  "config"     % "1.3.1"
   val pureConfig  = "com.github.pureconfig" %% "pureconfig" % "0.8.0"
 
   // async
@@ -28,7 +30,7 @@ object Dependencies {
   val cats = "org.typelevel" %% "cats" % "0.9.0"
 
   // logging
-  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging"   % "3.5.0"
+  val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging"   % "3.7.2"
   val logback      = "ch.qos.logback"             %  "logback-classic" % "1.2.3"
 
   // testing
@@ -41,6 +43,8 @@ object Dependencies {
 trait Dependencies {
 
   val scalaVersionUsed = scalaVersion
+
+  val scalaFmtVersionUsed = scalaFmtVersion
 
   // resolvers
   val commonResolvers = resolvers

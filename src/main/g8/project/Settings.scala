@@ -80,12 +80,10 @@ object Settings extends Dependencies {
     resolvers ++= commonResolvers,
 
     libraryDependencies ++= mainDeps,
-    libraryDependencies ++= testDeps map (_ % Test),
 
     scalafmtOnCompile in Compile := true,
 
     scalastyleFailOnError := true,
-    scalastyleFailOnError in Test := false,
 
     wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
       Wart.Any,
@@ -107,6 +105,8 @@ object Settings extends Dependencies {
       .settings(inConfig(config)(Defaults.testSettings): _*)
       .settings(inConfig(config)(scalafmtSettings))
       .settings(scalafmtOnCompile in config := true)
+      .settings(scalastyleConfig in config := baseDirectory.value / "scalastyle-test-config.xml")
+      .settings(scalastyleFailOnError in config := false)
       .settings(fork in config := requiresFork)
       .settings(testFrameworks := Seq(Specs2))
       .settings(libraryDependencies ++= testDeps map (_ % config.name))
