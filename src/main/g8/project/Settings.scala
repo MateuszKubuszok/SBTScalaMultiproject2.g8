@@ -36,6 +36,7 @@ object Settings extends Dependencies {
       "-Ywarn-extra-implicit",
       "-Ywarn-inaccessible",
       "-Ywarn-infer-any",
+      "-Ywarn-macros:after",
       "-Ywarn-nullary-override",
       "-Ywarn-nullary-unit",
       "-Ywarn-numeric-widen",

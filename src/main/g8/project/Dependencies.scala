@@ -5,7 +5,7 @@ import Dependencies._
 object Dependencies {
 
   // scala version
-  val scalaVersion = "2.12.3"
+  val scalaVersion = "2.12.4"
 
   val scalaFmtVersion = "1.2.0"
 
@@ -15,8 +15,7 @@ object Dependencies {
   // resolvers
   val resolvers = Seq(
     Resolver sonatypeRepo "public",
-    Resolver typesafeRepo "releases",
-    Resolver.bintrayRepo("cakesolutions", "maven")
+    Resolver typesafeRepo "releases"
   )
 
   val scalaConfig = "com.typesafe"          %  "config"     % "1.3.1"
