@@ -1,11 +1,11 @@
-import com.typesafe.sbt.GitVersioning
-import sbt.TestFrameworks.Specs2
-import sbt.Tests.Argument
 import sbt._
 import sbt.Keys._
+import sbt.TestFrameworks.Specs2
+import sbt.Tests.Argument
+import com.typesafe.sbt._
 import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
-import scoverage.ScoverageSbtPlugin
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
+import scoverage._
 import wartremover._
 
 object Settings extends Dependencies {
@@ -14,24 +14,36 @@ object Settings extends Dependencies {
 
   private val commonSettings = Seq(
     organization := "$organization$",
-    scalaVersion := scalaVersionUsed
+
+    scalaOrganization := scalaOrganizationUsed,
+    scalaVersion := scalaVersionUsed,
+
+    scalafmtVersion := scalaFmtVersionUsed
   )
 
   private val rootSettings = commonSettings
 
   private val modulesSettings = commonSettings ++ Seq(
     scalacOptions ++= Seq(
+      // standard settings
       "-target:jvm-1.8",
       "-encoding", "UTF-8",
       "-unchecked",
       "-deprecation",
       "-explaintypes",
       "-feature",
+      // language features
       "-language:existentials",
       "-language:higherKinds",
       "-language:implicitConversions",
       "-language:postfixOps",
+      // private options
+      // "-Yinduction-heuristics", // Typelevel Scala only
       "-Yno-adapted-args",
+      "-Ypartial-unification",
+      // "-Ysysdef", "$organization$.Predef._", // Typelevel Scala only
+      // "-Ypredef", "_", // Typelevel Scala only
+      // warnings
       "-Ywarn-dead-code",
       "-Ywarn-extra-implicit",
       "-Ywarn-inaccessible",
@@ -46,8 +58,13 @@ object Settings extends Dependencies {
       "-Ywarn-unused:params",
       "-Ywarn-unused:patvars",
       "-Ywarn-unused:privates",
+      "-Ywarn-value-discard",
+      // advanced options
+      "-Xcheckinit",
       "-Xfatal-warnings",
       "-Xfuture",
+      // "-Xstrict-patmat-analysis", // Typelevel Scala only
+      // linting
       "-Xlint",
       "-Xlint:adapted-args",
       "-Xlint:by-name-right-associative",
@@ -64,29 +81,33 @@ object Settings extends Dependencies {
       "-Xlint:poly-implicit-overload",
       "-Xlint:private-shadow",
       "-Xlint:stars-align",
+      "-Xlint:strict-unsealed-patmat",
       "-Xlint:type-parameter-shadow",
       "-Xlint:unsound-match"
     ),
-    scalacOptions in (Compile, console) --= Seq(
-      "-Xlint",
+    Compile / console / scalacOptions --= Seq(
+      // warnings
       "-Ywarn-unused:implicits",
       "-Ywarn-unused:imports",
       "-Ywarn-unused:locals",
       "-Ywarn-unused:params",
       "-Ywarn-unused:patvars",
       "-Ywarn-unused:privates",
-      "-Xfatal-warnings"
+      // advanced options
+      "-Xfatal-warnings",
+      // linting
+      "-Xlint"
     ),
 
     resolvers ++= commonResolvers,
 
     libraryDependencies ++= mainDeps,
 
-    scalafmtOnCompile in Compile := true,
+    Compile / scalafmtOnCompile := true,
 
     scalastyleFailOnError := true,
 
-    wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
+    Compile / compile / wartremoverWarnings ++= Warts.allBut(
       Wart.Any,
       Wart.DefaultArguments,
       Wart.ExplicitImplicitTypes,
@@ -105,16 +126,16 @@ object Settings extends Dependencies {
       .configs(config)
       .settings(inConfig(config)(Defaults.testSettings): _*)
       .settings(inConfig(config)(scalafmtSettings))
-      .settings(scalafmtOnCompile in config := true)
-      .settings(scalastyleConfig in config := baseDirectory.value / "scalastyle-test-config.xml")
-      .settings(scalastyleFailOnError in config := false)
-      .settings(fork in config := requiresFork)
+      .settings(config / scalafmtOnCompile := true)
+      .settings(config / scalastyleConfig := baseDirectory.value / "scalastyle-test-config.xml")
+      .settings(config / scalastyleFailOnError := false)
+      .settings(config / fork := requiresFork)
       .settings(testFrameworks := Seq(Specs2))
       .settings(libraryDependencies ++= testDeps map (_ % config.name))
       .enablePlugins(ScoverageSbtPlugin)
 
     protected def configureSequential(requiresFork: Boolean): Project = configure(requiresFork)
-      .settings(testOptions in config += Argument(Specs2, "sequential"))
+      .settings(config / testOptions += Argument(Specs2, "sequential"))
       .settings(parallelExecution in config := false)
   }
 

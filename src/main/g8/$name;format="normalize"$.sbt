@@ -1,9 +1,6 @@
 import sbt._
 import Settings._
 
-scalaVersion in ThisBuild := scalaVersionUsed
-scalafmtVersion in ThisBuild := scalaFmtVersionUsed
-
 lazy val root = project.root
   .setName("$name$")
   .setDescription("$about$")
@@ -18,8 +15,8 @@ lazy val common = project.from("common")
   .configureTests()
   .configureFunctionalTests()
   .configureIntegrationTests()
-  .settings(resourceGenerators in Compile += task[Seq[File]] {
-    val file = (resourceManaged in Compile).value / "$name;format="normalize"$-version.conf"
+  .settings(Compile / resourceGenerators += task[Seq[File]] {
+    val file = (Compile / resourceManaged).value / "$name;format="normalize"$-version.conf"
     IO.write(file, s"version=\${version.value}")
     Seq(file)
   })
@@ -31,8 +28,8 @@ lazy val first = project.from("first")
   .configureModule
   .configureTests()
   .compileAndTestDependsOn(common)
-  .settings(mainClass in (Compile, run) := Some("$package$.first.First"))
-  .settings(mainClass in assembly := Some("$package$.first.First"))
+  .settings(Compile / run / mainClass := Some("$package$.first.First"))
+  .settings(assembly / mainClass := Some("$package$.first.First"))
 
 lazy val second = project.from("second")
   .setName("second")
@@ -41,8 +38,11 @@ lazy val second = project.from("second")
   .configureModule
   .configureTests()
   .compileAndTestDependsOn(common)
-  .settings(mainClass in (Compile, run) := Some("$package$.second.Second"))
-  .settings(mainClass in assembly := Some("$package$.second.Second"))
+  .settings(Compile / run / mainClass := Some("$package$.second.Second"))
+  .settings(assembly / mainClass  := Some("$package$.second.Second"))
 
+addCommandAlias("fullTest", ";test;fun:test;it:test;scalastyle")
 
-addCommandAlias("fullTest", ";test;it:test;scalastyle")
+addCommandAlias("fullCoverageTest", ";coverage;test;fun:test;it:test;coverageReport;coverageAggregate;scalastyle")
+
+addCommandAlias("relock", ";unlock;reload;update;lock")
