@@ -12,7 +12,8 @@ Template of SBT Scala with:
  * [WartRemover](http://www.wartremover.org/) configuration,
  * predefined [sub]tasks: `it:test`, `fun:test`, `test` which run tests as
    `IntegrationTest`/`FunctionalTest`/`Test` respectively,
- * some additional plugins I finding useful: coursier, sbt-revolver, sbt-lock, sbt-git, sbt-assembly.
+ * some additional plugins I finding useful: sbt-revolver, sbt-lock, sbt-git, sbt-assembly, sbt-aspectj,
+ * settings prepared for easy switch into Typelevel Scala (see comments in `Settings.scala` and `Dependencies.scala`).
 
 ## Usage
 

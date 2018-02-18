@@ -85,7 +85,7 @@ object Settings extends Dependencies {
       "-Xlint:poly-implicit-overload",
       "-Xlint:private-shadow",
       "-Xlint:stars-align",
-      "-Xlint:strict-unsealed-patmat",
+      // "-Xlint:strict-unsealed-patmat", // Typelevel Scala only
       "-Xlint:type-parameter-shadow",
       "-Xlint:unsound-match"
     ),
