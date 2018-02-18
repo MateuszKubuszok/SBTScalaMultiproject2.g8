@@ -11,6 +11,9 @@ object Dependencies {
   // build tools version
   val scalaFmtVersion = "1.4.0"
 
+  // aspectj version
+  val aspectjVersion = "1.8.13"
+
   // libraries versions
   val catsVersion     = "1.0.1"
   val monixVersion    = "3.0.0-M3"
@@ -50,6 +53,8 @@ trait Dependencies {
   val scalaVersionUsed = scalaVersion
 
   val scalaFmtVersionUsed = scalaFmtVersion
+
+  val aspectjVersionUsed = aspectjVersion
 
   // resolvers
   val commonResolvers = resolvers

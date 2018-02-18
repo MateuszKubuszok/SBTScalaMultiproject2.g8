@@ -28,8 +28,7 @@ lazy val first = project.from("first")
   .configureModule
   .configureTests()
   .compileAndTestDependsOn(common)
-  .settings(Compile / run / mainClass := Some("$package$.first.First"))
-  .settings(assembly / mainClass := Some("$package$.first.First"))
+  .configureRun("$package$.first.First")
 
 lazy val second = project.from("second")
   .setName("second")
@@ -38,8 +37,7 @@ lazy val second = project.from("second")
   .configureModule
   .configureTests()
   .compileAndTestDependsOn(common)
-  .settings(Compile / run / mainClass := Some("$package$.second.Second"))
-  .settings(assembly / mainClass  := Some("$package$.second.Second"))
+  .configureRun("$package$.first.Second")
 
 addCommandAlias("fullTest", ";test;fun:test;it:test;scalastyle")
 

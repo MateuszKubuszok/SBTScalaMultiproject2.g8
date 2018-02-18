@@ -2,10 +2,14 @@ import sbt._
 import sbt.Keys._
 import sbt.TestFrameworks.Specs2
 import sbt.Tests.Argument
+import com.lightbend.sbt.SbtAspectj._
+import com.lightbend.sbt.SbtAspectj.autoImport._
 import com.typesafe.sbt._
 import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
+import sbtassembly.AssemblyPlugin.autoImport._
 import scoverage._
+import spray.revolver.RevolverPlugin.autoImport._
 import wartremover._
 
 object Settings extends Dependencies {
@@ -119,6 +123,22 @@ object Settings extends Dependencies {
       Wart.Nothing
     )
   )
+
+  implicit class RunConfigurator(project: Project) {
+
+    def configureRun(main: String): Project = project
+      .settings(assembly / assemblyJarName := s"\${name.value}.jar")
+      .settings(assembly / assemblyMergeStrategy := {
+        case PathList("scala", _*)           => MergeStrategy.first // workaround for Typelevel Scala
+        case PathList("library.properties")  => MergeStrategy.first // workaround for Typelevel Scala
+        case strategy                        => MergeStrategy.defaultMergeStrategy(strategy)
+      })
+      .settings(assembly / mainClass := Some(main))
+      .settings(Compile / run / mainClass := Some(main))
+      .settings(aspectjSettings)
+      .settings(Aspectj / aspectjVersion := aspectjVersionUsed)
+      .settings(reStart / javaOptions ++= (Aspectj / aspectjWeaverOptions).value)
+  }
 
   abstract class TestConfigurator(project: Project, config: Configuration) {
 
