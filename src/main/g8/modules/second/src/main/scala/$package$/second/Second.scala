@@ -5,7 +5,7 @@ import pureconfig.loadConfig
 
 object Second {
 
-  val config = loadConfig[SecondConfig]("first").getOrElse(SecondConfig("undefined"))
+  val config = loadConfig[SecondConfig]("second").getOrElse(SecondConfig("undefined"))
 
   val logger = Logger(getClass)
 
