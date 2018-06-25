@@ -37,7 +37,7 @@ lazy val second = project.from("second")
   .configureModule
   .configureTests()
   .compileAndTestDependsOn(common)
-  .configureRun("$package$.first.Second")
+  .configureRun("$package$.second.Second")
 
 addCommandAlias("fullTest", ";test;fun:test;it:test;scalastyle")
 
