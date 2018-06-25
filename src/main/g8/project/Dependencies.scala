@@ -6,18 +6,18 @@ object Dependencies {
 
   // scala version
   val scalaOrganization = "org.scala-lang" // "org.typelevel"
-  val scalaVersion      = "2.12.4" // "2.12.4-bin-typelevel-4"
+  val scalaVersion      = "2.12.6" // "2.12.4-bin-typelevel-4"
 
   // build tools version
-  val scalaFmtVersion = "1.4.0"
+  val scalaFmtVersion = "1.5.1"
 
   // aspectj version
-  val aspectjVersion = "1.8.13"
+  val aspectjVersion = "1.9.1"
 
   // libraries versions
-  val catsVersion     = "1.0.1"
-  val monixVersion    = "3.0.0-M3"
-  val specs2Version   = "4.0.2"
+  val catsVersion     = "1.1.0"
+  val monixVersion    = "3.0.0-RC1"
+  val specs2Version   = "4.2.0"
 
   // resolvers
   val resolvers = Seq(
@@ -34,12 +34,12 @@ object Dependencies {
   val monixEval          = "io.monix"                     %% "monix-eval"                % monixVersion
   // config
   val scopt              = "com.github.scopt"             %% "scopt"                     % "3.7.0"
-  val scalaConfig        = "com.typesafe"                 %  "config"                    % "1.3.1"
-  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.9.0"  excludeAll (
+  val scalaConfig        = "com.typesafe"                 %  "config"                    % "1.3.3"
+  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.9.1"  excludeAll (
           ExclusionRule(   "org.scala-lang")
   )
   // logging
-  val scalaLogging       = "com.typesafe.scala-logging"   %% "scala-logging"             % "3.7.2"
+  val scalaLogging       = "com.typesafe.scala-logging"   %% "scala-logging"             % "3.9.0"
   val logback            = "ch.qos.logback"               %  "logback-classic"           % "1.2.3"
   // testing
   val spec2Core          = "org.specs2"                   %% "specs2-core"               % specs2Version

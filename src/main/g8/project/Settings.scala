@@ -20,7 +20,7 @@ object Settings extends Dependencies {
     organization := "$organization$",
 
     scalaOrganization := scalaOrganizationUsed,
-    scalaVersion := scalaVersionUsed,
+    scalaVersion      := scalaVersionUsed,
 
     scalafmtVersion := scalaFmtVersionUsed
   )
@@ -127,13 +127,22 @@ object Settings extends Dependencies {
   implicit class RunConfigurator(project: Project) {
 
     def configureRun(main: String): Project = project
-      .settings(assembly / assemblyJarName := s"\${name.value}.jar")
-      .settings(assembly / assemblyMergeStrategy := {
-        case PathList("scala", _*)           => MergeStrategy.first // workaround for Typelevel Scala
-        case PathList("library.properties")  => MergeStrategy.first // workaround for Typelevel Scala
-        case strategy                        => MergeStrategy.defaultMergeStrategy(strategy)
-      })
-      .settings(assembly / mainClass := Some(main))
+      .settings(inTask(assembly)(Seq(
+        assemblyJarName := s"\${name.value}.jar",
+        assemblyMergeStrategy := {
+          case PathList("scala", _*)                       => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("compiler.properties")             => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("interactive.properties")          => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("library.properties")              => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("reflect.properties")              => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("repl.properties")                 => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("repl-jline.properties")           => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("scala-buildcharacter.properties") => MergeStrategy.first // workaround for Typelevel Scala
+          case PathList("scaladoc.properties")             => MergeStrategy.first // workaround for Typelevel Scala
+          case strategy                                    => MergeStrategy.defaultMergeStrategy(strategy)
+        },
+        mainClass := Some(main)
+      )))
       .settings(Compile / run / mainClass := Some(main))
       .settings(aspectjSettings)
       .settings(Aspectj / aspectjVersion := aspectjVersionUsed)
@@ -146,17 +155,21 @@ object Settings extends Dependencies {
       .configs(config)
       .settings(inConfig(config)(Defaults.testSettings): _*)
       .settings(inConfig(config)(scalafmtSettings))
-      .settings(config / scalafmtOnCompile := true)
-      .settings(config / scalastyleConfig := baseDirectory.value / "scalastyle-test-config.xml")
-      .settings(config / scalastyleFailOnError := false)
-      .settings(config / fork := requiresFork)
-      .settings(testFrameworks := Seq(Specs2))
+      .settings(inConfig(config)(Seq(
+        scalafmtOnCompile := true,
+        scalastyleConfig := baseDirectory.value / "scalastyle-test-config.xml",
+        scalastyleFailOnError := false,
+        fork := requiresFork,
+        testFrameworks := Seq(Specs2)
+      )))
       .settings(libraryDependencies ++= testDeps map (_ % config.name))
       .enablePlugins(ScoverageSbtPlugin)
 
     protected def configureSequential(requiresFork: Boolean): Project = configure(requiresFork)
-      .settings(config / testOptions += Argument(Specs2, "sequential"))
-      .settings(parallelExecution in config := false)
+      .settings(inConfig(config)(Seq(
+        testOptions += Argument(Specs2, "sequential"),
+        parallelExecution  := false
+      )))
   }
 
   implicit class DataConfigurator(project: Project) {
@@ -165,8 +178,8 @@ object Settings extends Dependencies {
 
     def setDescription(newDescription: String): Project = project.settings(description := newDescription)
 
-    def setInitialCommand(newInitialCommand: String): Project =
-      project.settings(initialCommands := s"import $package$.\$newInitialCommand")
+    def setInitialImport(newInitialCommand: String): Project =
+      project.settings(initialCommands := s"import $package$._, \$newInitialCommand")
   }
 
   implicit class RootConfigurator(project: Project) {

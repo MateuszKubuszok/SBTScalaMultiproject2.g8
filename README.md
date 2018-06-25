@@ -40,7 +40,7 @@ Within `build.sbt` use existing modules as basis how to use small DSL for applyi
  * `project.from("name")` will create module from `modules/name` directory and set its SBT name to `name`,
  * `setName("name")` and `setDescription("description")` can be used for settings up artifact name and description with
    fluent interface,
- * `setInitialCommand("command")` will set console starting point to `your.namespace.{command}`,
+ * `setInitialImport("package")` will set console starting point to `import your.namespace, {package}`,
  * `configureModule` will apply all common settings from `Settings.scala`,
  * `configureUnitTests`/`configureFunctionalTests`/`configureIntegrationTests` will add `unit:test`/`functional:test`/
    `integration:test` task to your module,
@@ -130,4 +130,5 @@ sbt common/it:test
 
 ## Additional utils
 
-`scripts/start-tmux.sh`
+`scripts/start-tmux.sh` - creates a tmux session names after the project. It has a window for each example module.
+I has some env tuning e.g. it aliases `sbt` to use Paul Philips sbt-extras wrapper.
