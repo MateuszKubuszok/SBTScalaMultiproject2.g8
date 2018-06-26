@@ -103,6 +103,13 @@ object Settings extends Dependencies {
       "-Xlint"
     ),
 
+    Global / cancelable := true,
+
+    Compile / fork := true,
+    Compile / trapExit := false,
+    Compile / connectInput := true,
+    Compile / outputStrategy := Some(StdoutOutput),
+
     resolvers ++= commonResolvers,
 
     libraryDependencies ++= mainDeps,
