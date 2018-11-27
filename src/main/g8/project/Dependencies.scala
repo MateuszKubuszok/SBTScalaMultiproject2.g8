@@ -5,18 +5,18 @@ import Dependencies._
 object Dependencies {
 
   // scala version
-  val scalaOrganization = "org.scala-lang" // "org.typelevel"
-  val scalaVersion      = "2.12.6" // "2.12.4-bin-typelevel-4"
+  val scalaOrganization = "org.scala-lang"
+  val scalaVersion      = "2.12.7"
 
   // build tools version
   val scalaFmtVersion = "1.5.1"
 
   // aspectj version
-  val aspectjVersion = "1.9.1"
+  val aspectjVersion = "1.9.2"
 
   // libraries versions
   val catsVersion     = "1.2.0"
-  val monixVersion    = "3.0.0-RC1"
+  val monixVersion    = "3.0.0-RC2"
   val specs2Version   = "4.3.3"
 
   // resolvers
@@ -35,7 +35,7 @@ object Dependencies {
   // config
   val scopt              = "com.github.scopt"             %% "scopt"                     % "3.7.0"
   val scalaConfig        = "com.typesafe"                 %  "config"                    % "1.3.3"
-  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.9.1"  excludeAll (
+  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.9.2"  excludeAll (
           ExclusionRule(   "org.scala-lang")
   )
   // logging

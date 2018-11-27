@@ -42,11 +42,9 @@ object Settings extends Dependencies {
       "-language:implicitConversions",
       "-language:postfixOps",
       // private options
-      // "-Yinduction-heuristics", // Typelevel Scala only
+      "-Ybackend-parallelism", "8",
       "-Yno-adapted-args",
       "-Ypartial-unification",
-      // "-Ysysdef", "$organization$.Predef._", // Typelevel Scala only
-      // "-Ypredef", "_", // Typelevel Scala only
       // warnings
       "-Ywarn-dead-code",
       "-Ywarn-extra-implicit",
@@ -67,7 +65,6 @@ object Settings extends Dependencies {
       "-Xcheckinit",
       "-Xfatal-warnings",
       "-Xfuture",
-      // "-Xstrict-patmat-analysis", // Typelevel Scala only
       // linting
       "-Xlint",
       "-Xlint:adapted-args",
@@ -85,22 +82,25 @@ object Settings extends Dependencies {
       "-Xlint:poly-implicit-overload",
       "-Xlint:private-shadow",
       "-Xlint:stars-align",
-      // "-Xlint:strict-unsealed-patmat", // Typelevel Scala only
       "-Xlint:type-parameter-shadow",
       "-Xlint:unsound-match"
     ),
-    Compile / console / scalacOptions --= Seq(
-      // warnings
-      "-Ywarn-unused:implicits",
-      "-Ywarn-unused:imports",
-      "-Ywarn-unused:locals",
-      "-Ywarn-unused:params",
-      "-Ywarn-unused:patvars",
-      "-Ywarn-unused:privates",
-      // advanced options
-      "-Xfatal-warnings",
-      // linting
-      "-Xlint"
+    console / scalacOptions := Seq(
+      // standard settings
+      "-target:jvm-1.8",
+      "-encoding", "UTF-8",
+      "-unchecked",
+      "-deprecation",
+      "-explaintypes",
+      "-feature",
+      // language features
+      "-language:existentials",
+      "-language:higherKinds",
+      "-language:implicitConversions",
+      "-language:postfixOps",
+      // private options
+      "-Yno-adapted-args",
+      "-Ypartial-unification"
     ),
 
     Global / cancelable := true,
@@ -137,16 +137,7 @@ object Settings extends Dependencies {
       .settings(inTask(assembly)(Seq(
         assemblyJarName := s"\${name.value}.jar",
         assemblyMergeStrategy := {
-          case PathList("scala", _*)                       => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("compiler.properties")             => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("interactive.properties")          => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("library.properties")              => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("reflect.properties")              => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("repl.properties")                 => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("repl-jline.properties")           => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("scala-buildcharacter.properties") => MergeStrategy.first // workaround for Typelevel Scala
-          case PathList("scaladoc.properties")             => MergeStrategy.first // workaround for Typelevel Scala
-          case strategy                                    => MergeStrategy.defaultMergeStrategy(strategy)
+          case strategy => MergeStrategy.defaultMergeStrategy(strategy)
         },
         mainClass := Some(main)
       )))

@@ -1,13 +1,14 @@
 language:       scala
 scala:
-              - 2.12.6
+              - 2.12.7
 jdk:
               - openjdk8
               - oraclejdk8
 dist:           trusty
 cache:
-              - "~/.ivy2"
-              - "~/.sbt"
+  directories:
+              - $HOME/.ivy2/cache
+              - $HOME/.sbt/boot/
 install:
               - sudo apt-get update
               - sudo apt-get install zsh
