@@ -10,7 +10,7 @@ lazy val root = project.root
 lazy val common = project.from("common")
   .setName("common")
   .setDescription("Common utilities")
-  .setInitialImport("_")
+  .setInitialImport()
   .configureModule
   .configureTests()
   .configureFunctionalTests()
@@ -24,7 +24,7 @@ lazy val common = project.from("common")
 lazy val first = project.from("first")
   .setName("first")
   .setDescription("First project")
-  .setInitialImport("first._")
+  .setInitialImport("$package$.first._")
   .configureModule
   .configureTests()
   .compileAndTestDependsOn(common)
@@ -33,14 +33,12 @@ lazy val first = project.from("first")
 lazy val second = project.from("second")
   .setName("second")
   .setDescription("Second project")
-  .setInitialImport("second._")
+  .setInitialImport("$package$.second._")
   .configureModule
   .configureTests()
   .compileAndTestDependsOn(common)
   .configureRun("$package$.second.Second")
 
 addCommandAlias("fullTest", ";test;fun:test;it:test;scalastyle")
-
 addCommandAlias("fullCoverageTest", ";coverage;test;fun:test;it:test;coverageReport;coverageAggregate;scalastyle")
-
 addCommandAlias("relock", ";unlock;reload;update;lock")

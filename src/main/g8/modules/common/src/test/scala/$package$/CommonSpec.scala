@@ -3,7 +3,7 @@ package $package$
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
-class CommonSpec extends Specification with Mockito {
+final class CommonSpec extends Specification with Mockito {
 
   "Common" should {
 

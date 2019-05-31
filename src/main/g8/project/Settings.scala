@@ -85,7 +85,7 @@ object Settings extends Dependencies {
       "-Xlint:type-parameter-shadow",
       "-Xlint:unsound-match"
     ),
-    console / scalacOptions := Seq(
+    Compile / console / scalacOptions := Seq(
       // standard settings
       "-target:jvm-1.8",
       "-encoding", "UTF-8",
@@ -131,7 +131,7 @@ object Settings extends Dependencies {
     )
   )
 
-  implicit class RunConfigurator(project: Project) {
+  implicit final class RunConfigurator(project: Project) {
 
     def configureRun(main: String): Project = project
       .settings(inTask(assembly)(Seq(
@@ -147,7 +147,7 @@ object Settings extends Dependencies {
       .settings(reStart / javaOptions ++= (Aspectj / aspectjWeaverOptions).value)
   }
 
-  abstract class TestConfigurator(project: Project, config: Configuration) {
+  sealed abstract class TestConfigurator(project: Project, config: Configuration) {
 
     protected def configure(requiresFork: Boolean): Project = project
       .configs(config)
@@ -170,41 +170,41 @@ object Settings extends Dependencies {
       )))
   }
 
-  implicit class DataConfigurator(project: Project) {
+  implicit final class DataConfigurator(project: Project) {
 
     def setName(newName: String): Project = project.settings(name := newName)
 
     def setDescription(newDescription: String): Project = project.settings(description := newDescription)
 
-    def setInitialImport(newInitialCommand: String): Project =
-      project.settings(initialCommands := s"import $package$._, \$newInitialCommand")
+    def setInitialImport(newInitialCommand: String*): Project =
+      project.settings(initialCommands := s"import \${("$package$._" +: newInitialCommand).mkString(", ")}")
   }
 
-  implicit class RootConfigurator(project: Project) {
+  implicit final class RootConfigurator(project: Project) {
 
     def configureRoot: Project = project.settings(rootSettings: _*)
   }
 
-  implicit class ModuleConfigurator(project: Project) {
+  implicit final class ModuleConfigurator(project: Project) {
 
     def configureModule: Project = project.settings(modulesSettings: _*).enablePlugins(GitVersioning)
   }
 
-  implicit class UnitTestConfigurator(project: Project) extends TestConfigurator(project, Test) {
+  implicit final class UnitTestConfigurator(project: Project) extends TestConfigurator(project, Test) {
 
     def configureTests(requiresFork: Boolean = false): Project = configure(requiresFork)
 
     def configureTestsSequential(requiresFork: Boolean = false): Project = configureSequential(requiresFork)
   }
 
-  implicit class FunctionalTestConfigurator(project: Project) extends TestConfigurator(project, FunctionalTest) {
+  implicit final class FunctionalTestConfigurator(project: Project) extends TestConfigurator(project, FunctionalTest) {
 
     def configureFunctionalTests(requiresFork: Boolean = false): Project = configure(requiresFork)
 
     def configureFunctionalTestsSequential(requiresFork: Boolean = false): Project = configureSequential(requiresFork)
   }
 
-  implicit class IntegrationTestConfigurator(project: Project) extends TestConfigurator(project, IntegrationTest) {
+  implicit final class IntegrationTestConfigurator(project: Project) extends TestConfigurator(project, IntegrationTest) {
 
     def configureIntegrationTests(requiresFork: Boolean = false): Project = configure(requiresFork)
 

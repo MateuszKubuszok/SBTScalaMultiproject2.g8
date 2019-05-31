@@ -6,18 +6,18 @@ object Dependencies {
 
   // scala version
   val scalaOrganization = "org.scala-lang"
-  val scalaVersion      = "2.12.7"
+  val scalaVersion      = "2.12.8"
 
   // build tools version
   val scalaFmtVersion = "1.5.1"
 
   // aspectj version
-  val aspectjVersion = "1.9.2"
+  val aspectjVersion = "1.9.4"
 
   // libraries versions
-  val catsVersion     = "1.2.0"
+  val catsVersion     = "1.6.0"
   val monixVersion    = "3.0.0-RC2"
-  val specs2Version   = "4.3.3"
+  val specs2Version   = "4.5.1"
 
   // resolvers
   val resolvers = Seq(
@@ -33,13 +33,13 @@ object Dependencies {
   val monixExecution     = "io.monix"                     %% "monix-execution"           % monixVersion
   val monixEval          = "io.monix"                     %% "monix-eval"                % monixVersion
   // config
-  val scopt              = "com.github.scopt"             %% "scopt"                     % "3.7.0"
+  val scopt              = "com.github.scopt"             %% "scopt"                     % "3.7.1"
   val scalaConfig        = "com.typesafe"                 %  "config"                    % "1.3.3"
-  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.9.2"  excludeAll (
+  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.11.0"  excludeAll (
           ExclusionRule(   "org.scala-lang")
   )
   // logging
-  val scalaLogging       = "com.typesafe.scala-logging"   %% "scala-logging"             % "3.9.0"
+  val scalaLogging       = "com.typesafe.scala-logging"   %% "scala-logging"             % "3.9.2"
   val logback            = "ch.qos.logback"               %  "logback-classic"           % "1.2.3"
   // testing
   val spec2Core          = "org.specs2"                   %% "specs2-core"               % specs2Version
@@ -63,19 +63,19 @@ trait Dependencies {
 
   val testDeps = Seq(catsLaws, spec2Core, spec2Mock, spec2Scalacheck)
 
-  implicit class ProjectRoot(project: Project) {
+  implicit final class ProjectRoot(project: Project) {
 
     def root: Project = project in file(".")
   }
 
-  implicit class ProjectFrom(project: Project) {
+  implicit final class ProjectFrom(project: Project) {
 
     private val commonDir = "modules"
 
     def from(dir: String): Project = project in file(s"\$commonDir/\$dir")
   }
 
-  implicit class DependsOnProject(project: Project) {
+  implicit final class DependsOnProject(project: Project) {
 
     private val testConfigurations = Set("test", "fun", "it")
     private def findCompileAndTestConfigs(p: Project) =
