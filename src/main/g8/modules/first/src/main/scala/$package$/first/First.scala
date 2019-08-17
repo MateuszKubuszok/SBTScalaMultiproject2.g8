@@ -2,6 +2,7 @@ package $package$.first
 
 import com.typesafe.scalalogging.Logger
 import pureconfig._
+import pureconfig.generic.auto._
 
 object First {
 

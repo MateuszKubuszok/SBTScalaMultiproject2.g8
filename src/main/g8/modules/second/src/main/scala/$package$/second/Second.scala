@@ -1,7 +1,8 @@
 package $package$.second
 
 import com.typesafe.scalalogging.Logger
-import pureconfig.loadConfig
+import pureconfig._
+import pureconfig.generic.auto._
 
 object Second {
 

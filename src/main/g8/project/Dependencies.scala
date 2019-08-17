@@ -6,18 +6,15 @@ object Dependencies {
 
   // scala version
   val scalaOrganization = "org.scala-lang"
-  val scalaVersion      = "2.12.8"
+  val scalaVersion      = "2.12.9"
 
   // build tools version
   val scalaFmtVersion = "1.5.1"
 
-  // aspectj version
-  val aspectjVersion = "1.9.4"
-
   // libraries versions
   val catsVersion     = "1.6.0"
-  val monixVersion    = "3.0.0-RC2"
-  val specs2Version   = "4.5.1"
+  val monixVersion    = "3.0.0-RC3"
+  val specs2Version   = "4.6.0"
 
   // resolvers
   val resolvers = Seq(
@@ -34,7 +31,7 @@ object Dependencies {
   val monixEval          = "io.monix"                     %% "monix-eval"                % monixVersion
   // config
   val scopt              = "com.github.scopt"             %% "scopt"                     % "3.7.1"
-  val scalaConfig        = "com.typesafe"                 %  "config"                    % "1.3.3"
+  val scalaConfig        = "com.typesafe"                 %  "config"                    % "1.3.4"
   val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.11.0"  excludeAll (
           ExclusionRule(   "org.scala-lang")
   )
@@ -53,8 +50,6 @@ trait Dependencies {
   val scalaVersionUsed = scalaVersion
 
   val scalaFmtVersionUsed = scalaFmtVersion
-
-  val aspectjVersionUsed = aspectjVersion
 
   // resolvers
   val commonResolvers = resolvers

@@ -2,8 +2,6 @@ import sbt._
 import sbt.Keys._
 import sbt.TestFrameworks.Specs2
 import sbt.Tests.Argument
-import com.lightbend.sbt.SbtAspectj._
-import com.lightbend.sbt.SbtAspectj.autoImport._
 import com.typesafe.sbt._
 import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
@@ -142,9 +140,6 @@ object Settings extends Dependencies {
         mainClass := Some(main)
       )))
       .settings(Compile / run / mainClass := Some(main))
-      .settings(aspectjSettings)
-      .settings(Aspectj / aspectjVersion := aspectjVersionUsed)
-      .settings(reStart / javaOptions ++= (Aspectj / aspectjWeaverOptions).value)
   }
 
   sealed abstract class TestConfigurator(project: Project, config: Configuration) {
