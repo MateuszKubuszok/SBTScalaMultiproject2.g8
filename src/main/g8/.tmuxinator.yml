@@ -21,7 +21,7 @@ socket_name: $name;format="normalize"$
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 pre_window:
-  - export SBT_OPTS="-Xms2G -Xss5m"
+  - export JVM_OPTS="-Xms2G -Xss5m"
   - alias sbt=\$PWD/sbt
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.

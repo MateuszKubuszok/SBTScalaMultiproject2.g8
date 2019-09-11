@@ -6,14 +6,14 @@ object Dependencies {
 
   // scala version
   val scalaOrganization = "org.scala-lang"
-  val scalaVersion      = "2.12.9"
+  val scalaVersion      = "2.12.10"
 
   // build tools version
   val scalaFmtVersion = "1.5.1"
 
   // libraries versions
-  val catsVersion     = "1.6.0"
-  val monixVersion    = "3.0.0-RC3"
+  val catsVersion     = "2.0.0"
+  val monixVersion    = "3.0.0"
   val specs2Version   = "4.6.0"
 
   // resolvers
