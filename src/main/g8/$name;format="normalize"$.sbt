@@ -41,4 +41,3 @@ lazy val second = project.from("second")
 
 addCommandAlias("fullTest", ";test;fun:test;it:test;scalastyle")
 addCommandAlias("fullCoverageTest", ";coverage;test;fun:test;it:test;coverageReport;coverageAggregate;scalastyle")
-addCommandAlias("relock", ";unlock;reload;update;lock")

@@ -1,5 +1,4 @@
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.9")
-addSbtPlugin("com.github.tkawachi" % "sbt-lock" % "0.6.0")
 addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.16")
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.9.1")

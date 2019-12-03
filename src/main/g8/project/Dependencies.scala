@@ -5,8 +5,9 @@ import Dependencies._
 object Dependencies {
 
   // scala version
-  val scalaOrganization = "org.scala-lang"
-  val scalaVersion      = "2.12.10"
+  val scalaOrganization  = "org.scala-lang"
+  val scalaVersion       = "2.12.10"
+  val crossScalaVersions = Seq("2.11.12", "2.12.10", "2.13.1")
 
   // build tools version
   val scalaFmtVersion = "1.5.1"
@@ -14,7 +15,7 @@ object Dependencies {
   // libraries versions
   val catsVersion     = "2.0.0"
   val monixVersion    = "3.0.0"
-  val specs2Version   = "4.6.0"
+  val specs2Version   = "4.7.1"
 
   // resolvers
   val resolvers = Seq(
@@ -32,9 +33,7 @@ object Dependencies {
   // config
   val scopt              = "com.github.scopt"             %% "scopt"                     % "3.7.1"
   val scalaConfig        = "com.typesafe"                 %  "config"                    % "1.3.4"
-  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.11.0"  excludeAll (
-          ExclusionRule(   "org.scala-lang")
-  )
+  val pureConfig         = "com.github.pureconfig"        %% "pureconfig"                % "0.11.0"
   // logging
   val scalaLogging       = "com.typesafe.scala-logging"   %% "scala-logging"             % "3.9.2"
   val logback            = "ch.qos.logback"               %  "logback-classic"           % "1.2.3"
@@ -48,6 +47,7 @@ trait Dependencies {
 
   val scalaOrganizationUsed = scalaOrganization
   val scalaVersionUsed = scalaVersion
+  val crossScalaVersionsUsed = crossScalaVersions
 
   val scalaFmtVersionUsed = scalaFmtVersion
 

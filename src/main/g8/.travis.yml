@@ -1,6 +1,8 @@
 language:       scala
 scala:
+              - 2.11.12
               - 2.12.10
+              - 2.13.1
 jdk:
               - openjdk8
 cache:
@@ -12,7 +14,7 @@ install:
               - sudo apt-get install zsh
               - sudo chmod +x scripts/*
               - ./sbt ++$TRAVIS_SCALA_VERSION update
-script:         ./sbt ++$TRAVIS_SCALA_VERSION fullCoverageTest
+script:         ./sbt ++$TRAVIS_SCALA_VERSION fullTest # coverage seems to be broken sometimes
 after_script:
               - scripts/prepare-test-results-for-ci.sh
               - find $HOME/.sbt -name "*.lock" | xargs rm

@@ -17,8 +17,9 @@ object Settings extends Dependencies {
   private val commonSettings = Seq(
     organization := "$organization$",
 
-    scalaOrganization := scalaOrganizationUsed,
-    scalaVersion      := scalaVersionUsed,
+    scalaOrganization  := scalaOrganizationUsed,
+    scalaVersion       := scalaVersionUsed,
+    crossScalaVersions := crossScalaVersionsUsed,
 
     scalafmtVersion := scalaFmtVersionUsed
   )
@@ -40,7 +41,9 @@ object Settings extends Dependencies {
       "-language:implicitConversions",
       "-language:postfixOps",
       // private options
+      "-Xexperimental",
       "-Ybackend-parallelism", "8",
+      "-Ymacro-annotations",
       "-Yno-adapted-args",
       "-Ypartial-unification",
       // warnings
@@ -52,19 +55,15 @@ object Settings extends Dependencies {
       "-Ywarn-nullary-override",
       "-Ywarn-nullary-unit",
       "-Ywarn-numeric-widen",
-      "-Ywarn-unused:implicits",
-      "-Ywarn-unused:imports",
-      "-Ywarn-unused:locals",
-      "-Ywarn-unused:params",
-      "-Ywarn-unused:patvars",
-      "-Ywarn-unused:privates",
+      //"-Ywarn-unused:implicits",
+      //"-Ywarn-unused:patvars",
+      //"-Ywarn-unused:privates",
       "-Ywarn-value-discard",
       // advanced options
       "-Xcheckinit",
       "-Xfatal-warnings",
       "-Xfuture",
       // linting
-      "-Xlint",
       "-Xlint:adapted-args",
       "-Xlint:by-name-right-associative",
       "-Xlint:constant",
@@ -82,28 +81,54 @@ object Settings extends Dependencies {
       "-Xlint:stars-align",
       "-Xlint:type-parameter-shadow",
       "-Xlint:unsound-match"
+    ).filterNot(
+      (if (scalaVersion.value.startsWith("2.13")) Set(
+        // removed in 2.13.x
+        "-Yno-adapted-args",
+        "-Ypartial-unification",
+        "-Ywarn-inaccessible",
+        "-Ywarn-infer-any",
+        "-Ywarn-nullary-override",
+        "-Ywarn-nullary-unit",
+        "-Xlint:by-name-right-associative",
+        "-Xlint:unsound-match",
+        "-Xfuture",
+        // only for 2.11.x
+        "-Xexperimental"
+      ) else if (scalaVersion.value.startsWith("2.12")) Set(
+        // added in 2.13.x
+        "-Ymacro-annotations",
+        // only for 2.11.x
+        "-Xexperimental"
+      ) else if (scalaVersion.value.startsWith("2.11")) Set(
+        // added in 2.13.x
+        "-Ymacro-annotations",
+        // added in 2.12.x
+        "-Ybackend-parallelism", "8",
+        "-Ywarn-extra-implicit",
+        "-Ywarn-macros:after",
+        "-Ywarn-unused:implicits",
+        "-Ywarn-unused:patvars",
+        "-Ywarn-unused:privates",
+        "-Xlint:constant"
+      ) else Set.empty[String]).contains _
     ),
-    Compile / console / scalacOptions := Seq(
-      // standard settings
-      "-target:jvm-1.8",
-      "-encoding", "UTF-8",
-      "-unchecked",
-      "-deprecation",
-      "-explaintypes",
-      "-feature",
-      // language features
-      "-language:existentials",
-      "-language:higherKinds",
-      "-language:implicitConversions",
-      "-language:postfixOps",
-      // private options
-      "-Yno-adapted-args",
-      "-Ypartial-unification"
+    console / scalacOptions --= Seq(
+      // warnings
+      "-Ywarn-unused:implicits",
+      "-Ywarn-unused:imports",
+      "-Ywarn-unused:locals",
+      "-Ywarn-unused:params",
+      "-Ywarn-unused:patvars",
+      "-Ywarn-unused:privates",
+      // advanced options
+      "-Xfatal-warnings",
+      // linting
+      "-Xlint"
     ),
 
     Global / cancelable := true,
 
-    Compile / fork := true,
     Compile / trapExit := false,
     Compile / connectInput := true,
     Compile / outputStrategy := Some(StdoutOutput),
