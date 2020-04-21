@@ -3,12 +3,13 @@ import sbt.Keys._
 import sbt.TestFrameworks.Specs2
 import sbt.Tests.Argument
 import com.typesafe.sbt._
-import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
+import org.scalafmt.sbt.ScalafmtPlugin.scalafmtConfigSettings
+import org.scalafmt.sbt.ScalafmtPlugin.autoImport._
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
 import sbtassembly.AssemblyPlugin.autoImport._
 import scoverage._
 import spray.revolver.RevolverPlugin.autoImport._
-import wartremover._
+import wartremover.WartRemover.autoImport._
 
 object Settings extends Dependencies {
 
@@ -19,9 +20,7 @@ object Settings extends Dependencies {
 
     scalaOrganization  := scalaOrganizationUsed,
     scalaVersion       := scalaVersionUsed,
-    crossScalaVersions := crossScalaVersionsUsed,
-
-    scalafmtVersion := scalaFmtVersionUsed
+    crossScalaVersions := crossScalaVersionsUsed
   )
 
   private val rootSettings = commonSettings
@@ -172,7 +171,7 @@ object Settings extends Dependencies {
     protected def configure(requiresFork: Boolean): Project = project
       .configs(config)
       .settings(inConfig(config)(Defaults.testSettings): _*)
-      .settings(inConfig(config)(scalafmtSettings))
+      .settings(inConfig(config)(scalafmtConfigSettings))
       .settings(inConfig(config)(Seq(
         scalafmtOnCompile := true,
         scalastyleConfig := baseDirectory.value / "scalastyle-test-config.xml",

@@ -1,9 +1,8 @@
 package $package$
 
-import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
-final class CommonFunSpec extends Specification with Mockito {
+final class CommonFunSpec extends Specification {
 
   "Common integration" should {
 

@@ -6,14 +6,15 @@ Template of SBT Scala with:
 
  * two modules independent of each other: `first` and `second`,
  * one `common` project - used by both `first` and `second`,
- * [Scalafmt](https://github.com/lucidsoftware/neo-sbt-scalafmt) configuration,
+ * [Scalafmt](https://github.com/scalameta/sbt-scalafmt) configuration,
  * [Scoverage](https://github.com/scoverage/sbt-scoverage) configuration,
  * [Scalastyle](http://www.scalastyle.org/) configuration,
  * [WartRemover](http://www.wartremover.org/) configuration,
  * predefined [sub]tasks: `it:test`, `fun:test`, `test` which run tests as
    `IntegrationTest`/`FunctionalTest`/`Test` respectively,
- * some additional plugins I finding useful: sbt-revolver, sbt-lock, sbt-git, sbt-assembly, sbt-aspectj,
- * settings prepared for easy switch into Typelevel Scala (see comments in `Settings.scala` and `Dependencies.scala`).
+ * some additional plugins I finding useful: sbt-revolver, sbt-lock, sbt-git, sbt-assembly,
+ * settings prepared for easy switch into Typelevel Scala (see comments in `Settings.scala` and `Dependencies.scala`),
+ * prepared for cross compilation
 
 ## Usage
 

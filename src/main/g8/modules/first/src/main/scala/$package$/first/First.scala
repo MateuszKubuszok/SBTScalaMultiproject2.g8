@@ -6,7 +6,7 @@ import pureconfig.generic.auto._
 
 object First {
 
-  val config = loadConfig[FirstConfig]("first").getOrElse(FirstConfig("undefined"))
+  val config = ConfigSource.default.at("first").load[FirstConfig].getOrElse(FirstConfig("undefined"))
 
   val logger = Logger(getClass)
 

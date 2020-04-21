@@ -6,7 +6,7 @@ import pureconfig.generic.auto._
 
 object Second {
 
-  val config = loadConfig[SecondConfig]("second").getOrElse(SecondConfig("undefined"))
+  val config = ConfigSource.default.at("second").load[SecondConfig].getOrElse(SecondConfig("undefined"))
 
   val logger = Logger(getClass)
 
