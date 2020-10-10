@@ -1,9 +1,6 @@
 name: $name;format="normalize"$
 root: .
 
-# Optional tmux socket
-socket_name: $name;format="normalize"$
-
 # Note that the pre and post options have been deprecated and will be replaced by
 # project hooks.
 

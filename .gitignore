@@ -1,6 +1,10 @@
+.bsp
 .bloop
 .ensime
 .idea
+.metals
+.vscode
+metals.sbt
 target/
 boot/
 lib_managed/
